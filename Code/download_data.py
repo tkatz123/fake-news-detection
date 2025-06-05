@@ -23,6 +23,7 @@ curl -L -u {'KAGGLE_USERNAME'}:{'KAGGLE_KEY'} https://www.kaggle.com/api/v1/data
 # Run the curl command
 subprocess.run(curl_cmd, shell=True, check=True)
 
+#Unzips downloaded file
 with zipfile.ZipFile(f"{download_dir}/dataset.zip", 'r') as zip_ref:
     zip_ref.extractall(download_dir)
 
