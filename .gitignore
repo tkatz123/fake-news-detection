@@ -1,2 +1,3 @@
 #Ignore data folder, CSV is too large to push to github
 Data/
+experiment.py
