@@ -2,6 +2,7 @@ import os
 import subprocess
 import json
 import zipfile
+import nltk
 
 # Set environment variables
 os.environ['KAGGLE_USERNAME'] = 'ENTER YOUR KAGGLE USERNAME'
@@ -28,3 +29,6 @@ with zipfile.ZipFile(f"{download_dir}/dataset.zip", 'r') as zip_ref:
     zip_ref.extractall(download_dir)
 
 print("✅ Dataset downloaded successfully.")
+
+# Ensures the VADER lexicon is available for sentiment analysis
+nltk.download('vader_lexicon', quiet = True)
