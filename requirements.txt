@@ -5,3 +5,5 @@ scikit-learn
 wordcloud
 nltk
 swifter
+scipy
+joblib
