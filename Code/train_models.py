@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from scipy.sparse import hstack
 import joblib
 
-def load_and_prepare_data(filepath):
+def load_and_prepare_data(data):
     """
     Loads and prepares the dataset for model training.
 
@@ -25,8 +25,12 @@ def load_and_prepare_data(filepath):
     pandas.DataFrame
         A dataframe with a new 'combined' text column.
     """
-    #Reads in csv file from designated filepath
-    df = pd.read_csv(filepath)
+
+    if isinstance(data, str):
+        #Reads in csv file from designated filepath
+        df = pd.read_csv(data)
+    else:
+        df = data
 
     #Creates one string 'combined' from a combination of clean_title and clean_text
     df['combined'] = (df['clean_title'] + " " + df['clean_text']).fillna("")
@@ -79,7 +83,7 @@ def vectorize_text(X_train_text, X_test_text, max_features = 5000):
         (fitted TfidfVectorizer, X_train_tfidf, X_test_tfidf)
     """
     #Initializes a tfidf vectorizer with max_features passed in parameter
-    tfidf = TfidfVectorizer(max_features = max_features)
+    tfidf = TfidfVectorizer(stop_words= 'english', max_features = max_features)
 
     #Fits and tranforms training data using tfidf vectorizer 
     X_train_tfidf = tfidf.fit_transform(X_train_text)
@@ -269,7 +273,6 @@ def main():
     print("Accuracy:", accuracy_score(y_test, meta_preds))
     print(classification_report(y_test, meta_preds, target_names=["Fake (0)", "Real (1)"]))
     print(confusion_matrix(y_test, meta_preds))
-
-
+    
 if __name__=="__main__":
     main()
