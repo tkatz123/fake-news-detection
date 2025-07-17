@@ -4,9 +4,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
+from sklearn.model_selection import GridSearchCV
 from scipy.sparse import hstack
 import joblib
+
 
 def load_and_prepare_data(data):
     """
@@ -131,10 +133,10 @@ def train_models(X_train_combined, y_train):
         (trained LogisticRegression model, trained RandomForestClassifier model)
     """
     #Initializes a logistic regression model
-    lr = LogisticRegression()
+    lr = LogisticRegression(max_iter = 1000, C = 10)
 
     #Initializes a random forest classifier model
-    rf = RandomForestClassifier()
+    rf = RandomForestClassifier(max_depth = 15, max_features = "sqrt", min_samples_leaf = 1, min_samples_split = 5, n_estimators = 200)
 
     #Fits logistic regression model on training data
     lr.fit(X_train_combined, y_train)
@@ -255,6 +257,25 @@ def main():
 
     #Makes a prediction using meta classifier model using testing matrix created previously
     meta_preds = meta_clf.predict(meta_test_X)
+    
+    #Making predictions using the training data
+    lr_train_preds = lr_model.predict(X_train_combined)
+    rf_train_preds = rf_model.predict(X_train_combined)
+
+    #Retrieving f1 score per class of LR model
+    lr_f1_per_class = f1_score(y_test, lr_preds, average = None)
+
+    #Printing models accuracy on training data
+    print("LR train accuracy: ", accuracy_score(y_train, lr_train_preds))
+    print("RF train accuracy: ", accuracy_score(y_train, rf_train_preds))
+
+    #Printing models accuracy on testing data
+    print("LR test accuracy: ", accuracy_score(y_test, lr_preds))
+    print("RF test accuracy: ", accuracy_score(y_test, rf_preds))
+
+    #Print LR models f1 score for each class
+    print(f"LR F1 Score (Fake): {lr_f1_per_class[0]:.4f}")
+    print(f"LR F1 Score (Real): {lr_f1_per_class[1]:.4f}")
 
     # Logistic regression Evaluation
     print("Logistic Regression:")
@@ -273,6 +294,41 @@ def main():
     print("Accuracy:", accuracy_score(y_test, meta_preds))
     print(classification_report(y_test, meta_preds, target_names=["Fake (0)", "Real (1)"]))
     print(confusion_matrix(y_test, meta_preds))
-    
+
+    '''
+    #Evaluating what the best value of C is for logistic regression model
+    lr_param_grid = {"C": [0.001, 0.01, 0.1, 1, 10]}
+    lr_grid = GridSearchCV(LogisticRegression(max_iter=1000), param_grid, cv=5)
+    lr_grid.fit(X_train_combined, y_train)
+
+    print("Best C:", lr_grid.best_params_)
+    print("Validation Score:", lr_grid.best_score_)
+    '''
+
+    '''
+    #Determines optimal parameters for tuning RF model
+    #Only run if needed, long run time
+    rf_param_grid = {
+    'max_depth': [10, 20, None],
+    'min_samples_leaf': [1, 5, 10],
+    'min_samples_split': [2, 5, 10],
+    'max_features': ['sqrt', 'log2'],
+    'n_estimators': [100, 200]
+    }
+
+    rf_grid = GridSearchCV(
+        RandomForestClassifier(random_state=42),
+        rf_param_grid,
+        cv=3,
+        scoring='f1',
+        verbose=2,
+        n_jobs=-1
+    )
+
+    rf_grid.fit(X_train_combined, y_train)
+
+    print("Best parameters:", rf_grid.best_params_)
+    print("Best CV score:", rf_grid.best_score_)
+    '''
 if __name__=="__main__":
     main()

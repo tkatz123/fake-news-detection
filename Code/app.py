@@ -25,7 +25,7 @@ st.markdown(
 
 #Data downloading and preproccessing page
 def page1():
-    st.title('🖨️Download & Preproccess Data')
+    st.title('💾Download & Preproccess Data')
 
     #Checks to see if data has already been downloaded
     if os.path.exists('Data/WELFake_Dataset.csv'):
@@ -149,7 +149,7 @@ def page2():
             st.metric(label="Real Confidence", value=f"{real_confidence[0]:.2%}")
         with col3:
             st.metric(label="Fake Confidence", value=f"{fake_confidence[0]:.2%}")
-
+        
     #Button to clear text box inputs
     st.button("Clear Input", on_click=clear_inputs)
         
