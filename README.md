@@ -38,9 +38,7 @@ You can download the dataset using one of the following methods:
 
 - **Via Streamlit Interface**
 
-  Launch the app and navigate to the “Download & Preprocess Data” page using the sidebar navigation.  
-  Upload your `kaggle.json` API key file when prompted.  
-  The dataset will be downloaded and extracted automatically. Once the dataset is downloaded, it will be preprocessed and saved as a new file.
+    Launch the app and navigate to the “Download & Preprocess Data” page using the sidebar navigation. Upload your `kaggle.json` API key file when prompted. The dataset will be downloaded and extracted automatically. Once the dataset is downloaded, it will be preprocessed and saved as a new file.
 
 - **Via Manual Script Execution**
 
