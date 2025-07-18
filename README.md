@@ -36,10 +36,14 @@ Downloading the dataset is not required to use the core fake news detection algo
 
 You can download the dataset using one of the following methods:
 
-- Via Streamlit Interface
-    Launch the app and navigate to the “Download & Preprocess Data” page using the sidebar navigation. Upload your kaggle.json API key file when prompted. The dataset will be downloaded and extracted automatically. Once the dataset is downloaded, it will be preprocessed and saved as a new file.
+- **Via Streamlit Interface**
 
-- Via Manual Script Execution
+  Launch the app and navigate to the “Download & Preprocess Data” page using the sidebar navigation.  
+  Upload your `kaggle.json` API key file when prompted.  
+  The dataset will be downloaded and extracted automatically. Once the dataset is downloaded, it will be preprocessed and saved as a new file.
+
+- **Via Manual Script Execution**
+
     Open download_data.py, scroll to the section under if __name__ == "__main__":, and manually enter your Kaggle username and API key in the designated fields, then run the file. Next open preprocessing_methods.py and run the script.
 
  Note: You can generate your Kaggle API key by creating a free account at the [Kaggle website](https://www.kaggle.com/) and following the instructions under Account Settings → Create API Token. This will download a kaggle.json file containing your credentials.
