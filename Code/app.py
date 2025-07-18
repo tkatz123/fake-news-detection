@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from download_data import download_data
 from preproccesing_methods import preproccess_data, clean_text, add_sentiment_column
-from train_models import load_and_prepare_data, combine_features
+from train_models import load_and_prepare_data, combine_features, get_top_indicator_words
 from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 

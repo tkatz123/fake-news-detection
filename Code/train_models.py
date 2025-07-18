@@ -28,6 +28,7 @@ def load_and_prepare_data(data):
         A dataframe with a new 'combined' text column.
     """
 
+    #Checks if data is being passed as a filepath or dataframe
     if isinstance(data, str):
         #Reads in csv file from designated filepath
         df = pd.read_csv(data)
@@ -205,6 +206,7 @@ def save_elements(tfidf, lr, rf, meta):
     joblib.dump(lr, "Models/lr_model.pkl")
     joblib.dump(rf, "Models/rf_model.pkl")
     joblib.dump(meta, "Models/meta_classifier.pkl")
+
 
 def main():
     """
