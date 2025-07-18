@@ -4,8 +4,7 @@ import pandas as pd
 import numpy as np
 from download_data import download_data
 from preproccesing_methods import preproccess_data, clean_text, add_sentiment_column
-from train_models import load_and_prepare_data, combine_features, get_top_indicator_words
-from sklearn.feature_extraction.text import TfidfVectorizer
+from train_models import load_and_prepare_data, combine_features
 import joblib
 
 #Defines the webpage title
@@ -121,10 +120,6 @@ def page2():
 
         #Combines tfidf matrix and sentiment value into one feature matrix
         text_sent_combined = combine_features(tfidf_matrix, text_sent)
-
-        #Makes predictions using the logisitic regression and random forest classifier model based on input data
-        lr_preds = lr_model.predict(text_sent_combined)
-        rf_preds = rf_model.predict(text_sent_combined)
 
         #Creates a matrix of confidence of real classifier for logisitc regression and random forest classifier models based on input data
         meta_input = np.column_stack([
