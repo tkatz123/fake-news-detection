@@ -55,6 +55,43 @@ def add_sentiment_column(df, text_column='text'):
     df['text_sentiment'] = df[text_column].fillna('').swifter.apply(lambda t: sia.polarity_scores(t)['compound'])
 
 def preproccess_data(filepath = 'Data/WELFake_Dataset.csv'):
+    """
+    Load and preprocess the WELFake news dataset.
+
+    This function performs the following steps:
+      1. Reads the raw CSV file from `filepath`.
+      2. Drops any rows where 'title' or 'text' is missing.
+      3. Renames the column 'Unnamed: 0' to 'article_ID'.
+      4. Creates two new columns, 'clean_title' and 'clean_text', by applying
+         the `clean_text` function to 'title' and 'text', respectively.
+      5. Adds a sentiment column (and any related columns) by calling
+         `add_sentiment_column(df)`.
+      6. Saves the cleaned DataFrame to 'Data/cleaned_news_dataset.csv' (overwriting
+         any existing file).
+
+    Args:
+        filepath (str, optional): 
+            Path to the raw dataset CSV file.  
+            Defaults to 'Data/WELFake_Dataset.csv'.
+
+    Returns:
+        pd.DataFrame:
+            The cleaned DataFrame, including the following columns:
+            - article_ID
+            - title
+            - text
+            - clean_title
+            - clean_text
+            - sentiment (and any additional sentiment-related columns).
+
+    Side Effects:
+        - Writes 'Data/cleaned_news_dataset.csv' to disk without the index column.
+
+    Raises:
+        FileNotFoundError: If `filepath` does not point to an existing file.
+        Any exceptions raised by `clean_text` or `add_sentiment_column`.
+    """
+        
     #Loads raw data
     df = pd.read_csv(filepath)
 
@@ -78,6 +115,15 @@ def preproccess_data(filepath = 'Data/WELFake_Dataset.csv'):
 
 if __name__ == "__main__":
 
+    #Creates sample dataframe for assert statement function testing
+    sample = {"text": ["today is great day"]}
+    test_df = pd.DataFrame(sample)
+    add_sentiment_column(test_df)
+
+    #Assert statements to check functions are working properly
+    assert clean_text("HELLO!   WorLd.,[)$%") == "hello world"
+    assert "text_sentiment" in test_df.columns
+
     print('Initializing data cleaning \n')
 
     df = preproccess_data()
@@ -92,3 +138,4 @@ if __name__ == "__main__":
         print(f'Columns saved to csv: {list(df.columns)}')
     else:
         print('❌ Data unsuccessfully saved, please rerun code')
+    

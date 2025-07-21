@@ -26,11 +26,13 @@ st.markdown(
 def page1():
     st.title('💾Download & Preproccess Data')
 
+    st.caption("Please upload your kaggle.json API credentials to securely download and preprocess the project dataset.")
+
     #Checks to see if data has already been downloaded
     if os.path.exists('Data/WELFake_Dataset.csv'):
         st.success('✅ Data already downloaded')
 
-        #Checks to see if data has already been preproccessed, if not calls preproccesiing function
+        #Checks to see if data has already been preproccessed, if not calls preproccesing function
         if os.path.exists('Data/cleaned_news_dataset.csv'):
             st.success('✅ Data already cleaned')
         else:
@@ -48,13 +50,16 @@ def page1():
         #Downloads dataset from kaggle once API key is successfully uploaded
         if kaggle_json is not None:
             st.write("🔽 File uploaded, downloading data...")
-            download_data(kaggle_json)
+            try:
+                download_data(kaggle_json)
+            except:
+                st.write("Data download unsuccesful, please try again")
 
             #Once dataset is successfully downloaded, preproccesses data 
             if os.path.exists('Data/WELFake_Dataset.csv'):
                 st.success('✅ Data downloaded successfully')
 
-                st.write('Preprocessing data, please be patient...')
+                st.write('Preprocessing data, please be patient this may take a few minutes...')
 
                 preproccess_data()
 
@@ -64,6 +69,8 @@ def page1():
 #News article validity evaluator
 def page2():
     st.title('📰🚨Fake News Detector')
+
+    st.caption("Paste an article's title and body into the text fields below to determine whether it is factually accurate (real) or misinformation (fake).")
 
     #Loads models and vectorizor fitted on training data
     tfidf = joblib.load('Models/tfidf_vectorizer.pkl')
@@ -123,16 +130,19 @@ def page2():
 
         #Creates a matrix of confidence of real classifier for logisitc regression and random forest classifier models based on input data
         meta_input = np.column_stack([
-        lr_model.predict_proba(text_sent_combined)[:, 1],
-        rf_model.predict_proba(text_sent_combined)[:, 1]
+        lr_model.predict_proba(text_sent_combined)[:, 0],
+        rf_model.predict_proba(text_sent_combined)[:, 0]
         ])
+
+        lr_preds = lr_model.predict(text_sent_combined)
+        rf_preds = rf_model.predict(text_sent_combined)
 
         #Makes a prediction using meta classifier model using matrix created previously
         meta_probs = meta_clf.predict_proba(meta_input)
 
         #Gets the confidence of a real and fake prediction
-        real_confidence = meta_probs[:, 1]  
-        fake_confidence = meta_probs[:, 0]
+        real_confidence = meta_probs[:, 0]  
+        fake_confidence = meta_probs[:, 1]
 
         #Intializes three columns for the prediction metrics
         col1, col2, col3 = st.columns(3)

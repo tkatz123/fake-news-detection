@@ -169,10 +169,10 @@ def train_meta_model(lr, rf, X_train_combined, y_train):
     LogisticRegression
         Trained meta-classifier model.
     """
-    #Generate meta-features: predicted probabilities from base models (for class 1 = Real)
+    #Generate meta-features: predicted probabilities from base models (for class 0 = Real)
     meta_X = np.column_stack([
-        lr.predict_proba(X_train_combined)[:, 1],  
-        rf.predict_proba(X_train_combined)[:, 1] 
+        lr.predict_proba(X_train_combined)[:, 0],  
+        rf.predict_proba(X_train_combined)[:, 0] 
     ])
 
     #Train meta-classifier using logistic regression model
@@ -253,8 +253,8 @@ def main():
 
     #Creates a matrix of confidence of real classifier for logisitc regression and random forest classifier models based on testing data
     meta_test_X = np.column_stack([
-    lr_model.predict_proba(X_test_combined)[:, 1],
-    rf_model.predict_proba(X_test_combined)[:, 1]
+    lr_model.predict_proba(X_test_combined)[:, 0],
+    rf_model.predict_proba(X_test_combined)[:, 0]
     ])
 
     #Makes a prediction using meta classifier model using testing matrix created previously
@@ -276,25 +276,25 @@ def main():
     print("RF test accuracy: ", accuracy_score(y_test, rf_preds))
 
     #Print LR models f1 score for each class
-    print(f"LR F1 Score (Fake): {lr_f1_per_class[0]:.4f}")
-    print(f"LR F1 Score (Real): {lr_f1_per_class[1]:.4f}")
+    print(f"LR F1 Score (Fake): {lr_f1_per_class[1]:.4f}")
+    print(f"LR F1 Score (Real): {lr_f1_per_class[0]:.4f}")
 
     # Logistic regression Evaluation
     print("Logistic Regression:")
     print("Accuracy:", accuracy_score(y_test, lr_preds))
-    print(classification_report(y_test, lr_preds, target_names=["Fake (0)", "Real (1)"]))
+    print(classification_report(y_test, lr_preds, target_names=["Fake (1)", "Real (0)"]))
     print(confusion_matrix(y_test, lr_preds))
 
     # Random forest Evaluation
     print("\nRandom Forest:")
     print("Accuracy:", accuracy_score(y_test, rf_preds))
-    print(classification_report(y_test, rf_preds, target_names=["Fake (0)", "Real (1)"]))
+    print(classification_report(y_test, rf_preds, target_names=["Fake (1)", "Real (0)"]))
     print(confusion_matrix(y_test, rf_preds))
 
     #Meta classifier evaluation
     print("\nClassification Report (Meta Classifier):")
     print("Accuracy:", accuracy_score(y_test, meta_preds))
-    print(classification_report(y_test, meta_preds, target_names=["Fake (0)", "Real (1)"]))
+    print(classification_report(y_test, meta_preds, target_names=["Fake (1)", "Real (0)"]))
     print(confusion_matrix(y_test, meta_preds))
 
     '''
