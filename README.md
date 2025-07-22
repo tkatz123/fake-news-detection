@@ -88,7 +88,7 @@ You can download the dataset using one of the following methods:
 - Produces a combined prediction and confidence score
 
 
-Note: if you retune any of the model parameters, return the `train_models.py` script before running the Streamlit interface.
+>Note: if you retune any of the model parameters, return the `train_models.py` script before running the Streamlit interface.
 ---
 
 ## Packages Used
