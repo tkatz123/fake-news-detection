@@ -44,7 +44,7 @@ You can download the dataset using one of the following methods:
 
     Open download_data.py, scroll to the section under if __name__ == "__main__":, and manually enter your Kaggle username and API key in the designated fields, then run the file. Next open preprocessing_methods.py and run the script.
 
- Note: You can generate your Kaggle API key by creating a free account at the [Kaggle website](https://www.kaggle.com/) and following the instructions under Account Settings → Create API Token. This will download a kaggle.json file containing your credentials.
+ >Note: You can generate your Kaggle API key by creating a free account at the [Kaggle website](https://www.kaggle.com/) and following the    instructions under Account Settings → Create API Token. This will download a kaggle.json file containing your credentials.
 
 ---
 
