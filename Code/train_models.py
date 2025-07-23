@@ -4,7 +4,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 from sklearn.model_selection import GridSearchCV
 from scipy.sparse import hstack
 import joblib
@@ -243,59 +242,6 @@ def main():
 
     #Saves tfidf vectorizer, logistic regression, random forest classifier, and meta classification model using save_elements
     save_elements(tfidf, lr_model, rf_model, meta_clf)
-
-    #Combines test text data, and sentiment data into a single feature matrix using combine features
-    X_test_combined = combine_features(X_test_tfidf, X_test_sent)
-
-    #Makes predictions using the logisitc regression and random forest classifier models based on combined testing data
-    lr_preds = lr_model.predict(X_test_combined)
-    rf_preds = rf_model.predict(X_test_combined)
-
-    #Creates a matrix of confidence of real classifier for logisitc regression and random forest classifier models based on testing data
-    meta_test_X = np.column_stack([
-    lr_model.predict_proba(X_test_combined)[:, 0],
-    rf_model.predict_proba(X_test_combined)[:, 0]
-    ])
-
-    #Makes a prediction using meta classifier model using testing matrix created previously
-    meta_preds = meta_clf.predict(meta_test_X)
-    
-    #Making predictions using the training data
-    lr_train_preds = lr_model.predict(X_train_combined)
-    rf_train_preds = rf_model.predict(X_train_combined)
-
-    #Retrieving f1 score per class of LR model
-    lr_f1_per_class = f1_score(y_test, lr_preds, average = None)
-
-    #Printing models accuracy on training data
-    print("LR train accuracy: ", accuracy_score(y_train, lr_train_preds))
-    print("RF train accuracy: ", accuracy_score(y_train, rf_train_preds))
-
-    #Printing models accuracy on testing data
-    print("LR test accuracy: ", accuracy_score(y_test, lr_preds))
-    print("RF test accuracy: ", accuracy_score(y_test, rf_preds))
-
-    #Print LR models f1 score for each class
-    print(f"LR F1 Score (Fake): {lr_f1_per_class[1]:.4f}")
-    print(f"LR F1 Score (Real): {lr_f1_per_class[0]:.4f}")
-
-    # Logistic regression Evaluation
-    print("Logistic Regression:")
-    print("Accuracy:", accuracy_score(y_test, lr_preds))
-    print(classification_report(y_test, lr_preds, target_names=["Fake (1)", "Real (0)"]))
-    print(confusion_matrix(y_test, lr_preds))
-
-    # Random forest Evaluation
-    print("\nRandom Forest:")
-    print("Accuracy:", accuracy_score(y_test, rf_preds))
-    print(classification_report(y_test, rf_preds, target_names=["Fake (1)", "Real (0)"]))
-    print(confusion_matrix(y_test, rf_preds))
-
-    #Meta classifier evaluation
-    print("\nClassification Report (Meta Classifier):")
-    print("Accuracy:", accuracy_score(y_test, meta_preds))
-    print(classification_report(y_test, meta_preds, target_names=["Fake (1)", "Real (0)"]))
-    print(confusion_matrix(y_test, meta_preds))
 
     '''
     #Evaluating what the best value of C is for logistic regression model

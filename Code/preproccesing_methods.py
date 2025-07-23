@@ -35,7 +35,6 @@ def clean_text(text):
 
     return text
 
-
 def add_sentiment_column(df, text_column='text'):
     """
     Adds a sentiment score column to a DataFrame using VADER sentiment analysis.
@@ -138,4 +137,3 @@ if __name__ == "__main__":
         print(f'Columns saved to csv: {list(df.columns)}')
     else:
         print('❌ Data unsuccessfully saved, please rerun code')
-    

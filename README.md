@@ -64,6 +64,7 @@ You can download the dataset using one of the following methods:
 - `Code/app.py`: Main Streamlit application for user interaction and real-time predictions
 - `Code/download_data.py`: Script to securely download the dataset using a user-provided Kaggle API key
 - `Code/exploratory_analysis.ipynb`: Jupyter notebook containing preliminary exploratory data analysis of the dataset
+- `Code/model_evaluation.ipynb`: Jupyter Notebook presenting a comprehensive evaluation of model performance and analysis of the machine learning pipeline.
 - `Code/preprocessing_methods.ipynb`: Functions for text preprocessing, cleaning, and sentiment annotation
 - `Code/preprocessing_notebook.ipynb`: Development notebook used for iterative testing of preprocessing techniques
 - `Code/train_models.py`: Pipeline for training, evaluating, and saving Logistic Regression, Random Forest, and meta-classifier models
@@ -102,6 +103,17 @@ You can download the dataset using one of the following methods:
 - swifter
 - scipy
 - joblib
+
+---
+
+## Author
+
+Tyler Katz
+
+B.S. in Applied Data Analytics, Class of 2026
+Syracuse University
+
+[GitHub Profile](https://github.com/tkatz123) • [LinkedIn](https://www.linkedin.com/in/tylerkatz1/)
 
 ---
 
