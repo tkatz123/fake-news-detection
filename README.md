@@ -103,6 +103,7 @@ You can download the dataset using one of the following methods:
 - swifter
 - scipy
 - joblib
+- seaborn
 
 ---
 
