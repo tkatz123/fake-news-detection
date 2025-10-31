@@ -6,6 +6,7 @@ from download_data import download_data
 from preproccesing_methods import preproccess_data, clean_text, add_sentiment_column
 from train_models import load_and_prepare_data, combine_features
 import joblib
+import nltk
 
 #Defines the webpage title
 st.set_page_config(page_title="Fake News Detector", layout="wide")
@@ -71,6 +72,8 @@ def page2():
     st.title('📰🚨Fake News Detector')
 
     st.caption("Paste an article's title and body into the text fields below to determine whether it is factually accurate (real) or misinformation (fake).")
+
+    nltk.download('vader_lexicon', quiet = True)
 
     #Loads models and vectorizor fitted on training data
     tfidf = joblib.load('Models/tfidf_vectorizer.pkl')
